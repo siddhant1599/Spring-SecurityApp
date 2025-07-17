@@ -3,7 +3,6 @@ package com.springsecurity.SecurityApp.SecurityApp.services;
 import com.springsecurity.SecurityApp.SecurityApp.dto.SignUpDto;
 import com.springsecurity.SecurityApp.SecurityApp.dto.UserDto;
 import com.springsecurity.SecurityApp.SecurityApp.entities.User;
-import com.springsecurity.SecurityApp.SecurityApp.exceptions.ResourceNotFoundException;
 import com.springsecurity.SecurityApp.SecurityApp.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -26,7 +25,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmail(username).orElseThrow(() -> new ResourceNotFoundException("Resource not found by email -" + username));
+        return userRepository.findByEmail(username).orElseThrow(() -> new BadCredentialsException("User not found by email -" + username));
     }
 
     public UserDto signUpUser(SignUpDto signUpDto) {
@@ -42,7 +41,7 @@ public class UserService implements UserDetailsService {
     }
 
     public User getUserById(Long userId){
-        return userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("Resource not found by userId -" + userId));
+        return userRepository.findById(userId).orElseThrow(() -> new BadCredentialsException("User not found by userId -" + userId));
     }
 
 }
