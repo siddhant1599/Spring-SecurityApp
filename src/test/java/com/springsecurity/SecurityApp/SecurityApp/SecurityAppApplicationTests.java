@@ -17,7 +17,7 @@ class SecurityAppApplicationTests {
 
 		User testuser = new User(4L, "sid", "pass", "test@gmail.com");
 
-		String token = jwtService.createToken(testuser);
+		//String token = jwtService.generateAccessToken(testuser);
 		System.out.println(token);
 
 		System.out.println( jwtService.getUserIdFromToken(token) );

@@ -19,13 +19,23 @@ public class JwtService {
     private String jwtSecretkey;
 
 
-    public String createToken(User user){
+    public String generateAccessToken(User user){
         return Jwts.builder()
                 .subject(user.getId().toString())
                 .claim("email", user.getEmail())
                 .claim("roles", Set.of("ADMIN", "USER"))
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 1000*60))
+                .signWith(getSecretKey())
+                .compact();
+
+    }
+
+    public String generateRefreshToken(User user){
+        return Jwts.builder()
+                .subject(user.getId().toString())
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + 1000L *60*60*24*30*6))
                 .signWith(getSecretKey())
                 .compact();
 
