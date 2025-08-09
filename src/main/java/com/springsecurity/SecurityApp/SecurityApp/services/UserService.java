@@ -28,6 +28,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findByEmail(username).orElseThrow(() -> new BadCredentialsException("User not found by email -" + username));
     }
 
+    public User getUserBymail(String email){
+        return userRepository.findByEmail(email).orElse(null);
+    }
+
     public UserDto signUpUser(SignUpDto signUpDto) {
         Optional<User> user = userRepository.findByEmail(signUpDto.getEmail());
 
@@ -42,6 +46,10 @@ public class UserService implements UserDetailsService {
 
     public User getUserById(Long userId){
         return userRepository.findById(userId).orElseThrow(() -> new BadCredentialsException("User not found by userId -" + userId));
+    }
+
+    public void saveUser(User user){
+        userRepository.save(user);
     }
 
 }
