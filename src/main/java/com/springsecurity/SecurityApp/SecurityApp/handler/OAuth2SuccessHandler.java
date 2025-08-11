@@ -1,10 +1,8 @@
 package com.springsecurity.SecurityApp.SecurityApp.handler;
 
 import com.springsecurity.SecurityApp.SecurityApp.entities.User;
-import com.springsecurity.SecurityApp.SecurityApp.repositories.UserRepository;
 import com.springsecurity.SecurityApp.SecurityApp.services.JwtService;
 import com.springsecurity.SecurityApp.SecurityApp.services.UserService;
-import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
