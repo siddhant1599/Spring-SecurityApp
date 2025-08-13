@@ -1,12 +1,12 @@
 package com.springsecurity.SecurityApp.SecurityApp.config;
 
+import com.springsecurity.SecurityApp.SecurityApp.entities.enums.Role;
 import com.springsecurity.SecurityApp.SecurityApp.filters.JwtAuthFilter;
 import com.springsecurity.SecurityApp.SecurityApp.handler.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,6 +21,9 @@ public class WebSecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
+    private final String[] publicRoutes = {
+            "/auth/*", "/home.html", "/error"
+    };
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
@@ -28,11 +31,10 @@ public class WebSecurityConfig {
         httpSecurity
                 .authorizeHttpRequests(auth -> {
                   auth
-                          .requestMatchers("/posts", "/auth/*","/home.html").permitAll()
-                          //.requestMatchers("posts/**").hasAnyRole("ADMIN")
+                          .requestMatchers(publicRoutes).permitAll()
+                          .requestMatchers("posts/**").hasAnyRole(Role.ADMIN.name())
                           .anyRequest().authenticated();
                 })
-                //.formLogin(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .oauth2Login(httpSecurityOAuth2LoginConfigurer ->
