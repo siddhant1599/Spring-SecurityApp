@@ -1,5 +1,6 @@
 package com.springsecurity.SecurityApp.SecurityApp.dto;
 
+import com.springsecurity.SecurityApp.SecurityApp.entities.enums.Permission;
 import com.springsecurity.SecurityApp.SecurityApp.entities.enums.Role;
 import lombok.Data;
 
@@ -13,4 +14,6 @@ public class UserDto {
     private Long id;
 
     private Set<Role> roles;
+
+    private Set<Permission> permissions;
 }

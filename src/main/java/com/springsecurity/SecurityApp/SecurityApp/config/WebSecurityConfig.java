@@ -1,11 +1,12 @@
 package com.springsecurity.SecurityApp.SecurityApp.config;
 
-import com.springsecurity.SecurityApp.SecurityApp.entities.enums.Role;
+import com.springsecurity.SecurityApp.SecurityApp.entities.enums.Permission;
 import com.springsecurity.SecurityApp.SecurityApp.filters.JwtAuthFilter;
 import com.springsecurity.SecurityApp.SecurityApp.handler.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,7 +33,14 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> {
                   auth
                           .requestMatchers(publicRoutes).permitAll()
-                          .requestMatchers("posts/**").hasAnyRole(Role.ADMIN.name())
+                          .requestMatchers(HttpMethod.GET, "/posts/**")
+                          .hasAnyRole(Permission.POST_VIEW.name())
+                          .requestMatchers(HttpMethod.POST, "/posts/**")
+                          .hasAnyRole(Permission.POST_CREATE.name())
+                          .requestMatchers(HttpMethod.PUT, "/posts/**")
+                          .hasAnyRole(Permission.POST_UPDATE.name())
+                          .requestMatchers(HttpMethod.DELETE, "/posts/**")
+                          .hasAnyRole(Permission.POST_DELETE.name())
                           .anyRequest().authenticated();
                 })
                 .csrf(AbstractHttpConfigurer::disable)
