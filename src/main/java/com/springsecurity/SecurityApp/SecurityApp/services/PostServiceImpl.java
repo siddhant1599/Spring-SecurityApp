@@ -1,6 +1,7 @@
 package com.springsecurity.SecurityApp.SecurityApp.services;
 
 import com.springsecurity.SecurityApp.SecurityApp.dto.PostDto;
+import com.springsecurity.SecurityApp.SecurityApp.dto.UserDto;
 import com.springsecurity.SecurityApp.SecurityApp.entities.PostEntity;
 import com.springsecurity.SecurityApp.SecurityApp.entities.User;
 import com.springsecurity.SecurityApp.SecurityApp.exceptions.ResourceNotFoundException;
@@ -32,6 +33,8 @@ public class PostServiceImpl implements PostService{
 
     @Override
     public PostDto createNewPost(PostDto inputPost) {
+        User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        inputPost.setAuthor(modelMapper.map(user, UserDto.class));
         PostEntity postEntity = postRepository.save(modelMapper.map(inputPost, PostEntity.class));
         return modelMapper.map(postEntity, PostDto.class);
     }

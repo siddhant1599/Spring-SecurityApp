@@ -1,6 +1,7 @@
 package com.springsecurity.SecurityApp.SecurityApp.dto;
 
 
+import com.springsecurity.SecurityApp.SecurityApp.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,4 +20,6 @@ public class PostDto {
     private String description;
 
     private LocalDateTime time;
+
+    private UserDto author;
 }
